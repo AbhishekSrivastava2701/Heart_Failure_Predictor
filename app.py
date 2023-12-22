@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import pickle
 import numpy as np
 import pandas as pd
@@ -19,40 +19,33 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-        try:
-            age = float(request.form['age'])
-            cpk = int(request.form['CPK'])
-            plate = float(request.form['platelets'])
-            sc = float(request.form['SC'])
-            ss = int(request.form['SS'])
-            ef = int(request.form['EF'])
-            time = int(request.form['time'])
-            smoke = int(request.form['Smoking'])
-            anae = int(request.form['anaemia'])
-            pressure = int(request.form['bloodpressure'])
-            dia = int(request.form['Diabetes'])
-            sex = int(request.form['Gender'])
+        age = float(request.form['age'])
+        cpk = int(request.form['CPK'])
+        plate = float(request.form['platelets'])
+        sc = float(request.form['SC'])
+        ss = int(request.form['SS'])
+        ef = int(request.form['EF'])
+        time = int(request.form['time'])
+        smoke = int(request.form['Smoking'])
+        anae = int(request.form['anaemia'])
+        pressure = int(request.form['bloodpressure'])
+        dia = int(request.form['Diabetes'])
+        sex = int(request.form['Gender'])
+        dea = int(request.form['Death'])
 
-            # Check for negative values
-            if any(val < 0 for val in [age, cpk, plate, sc, ss, ef, time, smoke, anae, pressure, dia, sex]):
-                raise ValueError("Input values cannot be negative")
+        data = np.array([[age, anae,cpk,dia,ef,pressure,plate,sc,ss,sex,smoke,time,dea]])
+        my_prediction = classifier.predict(data)
 
-            data = np.array([[age, anae, cpk, dia, ef, pressure, plate, sc, ss, sex, smoke, time]])
-            my_prediction = classifier.predict(data)
-
-            if my_prediction == 1:
-                prediction_text = "Contact a nearby Heart Doctor"
-            else:
-                prediction_text = "You are safe"
-
-            return render_template('result.html', prediction_text=prediction_text)
-        except ValueError as e:
-            # Handle invalid input (non-numeric or negative values)
-            error_message = f"Invalid input: {str(e)}"
-            return render_template('error.html', error_message=error_message)
+        if my_prediction == 1:
+            prediction_text = "Contact a nearby Heart Doctor"
+        else:
+            prediction_text = "You are safe"
+        
+        return render_template('result.html', prediction_text=prediction_text)
 
     # If the method is not POST, redirect to the home page
-    return redirect(url_for('home'))
+     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

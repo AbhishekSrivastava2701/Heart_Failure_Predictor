@@ -31,9 +31,8 @@ def predict():
         pressure = int(request.form['bloodpressure'])
         dia = int(request.form['Diabetes'])
         sex = int(request.form['Gender'])
-        dea = int(request.form['Death'])
 
-        data = np.array([[age, anae,cpk,dia,ef,pressure,plate,sc,ss,sex,smoke,time,dea]])
+        data = np.array([[age, anae,cpk,dia,ef,pressure,plate,sc,ss,sex,smoke,time]])
         my_prediction = classifier.predict(data)
 
         if my_prediction == 1:

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Heart Failure Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+
+<body>
+    <!-- Website Title -->
+    <div class="container">
+        <center>
+            <h2 class='container-heading'><span class="heading_font"><u>Heart Failure Predictor</u></span></h2>
+            <center>
+                <div class='description'>
+                    <p>A Machine Learning Web App, Built with Flask.</p>
+                </div>
+    </div>
+
+    <!-- Text Area -->
+    <!-- <div class="ml-container">
+        <form action="{{ url_for('predict') }}" method="POST">
+            <input class="form-input" type="text" name="age" placeholder="AGE"><br>
+            Add other input fields here (CPK, platelets, etc.)
+            <br>
+            <button class="my-cta-button" type="submit">Predict</button>
+        </form>
+    </div> -->
+
+    <div>
+        {% if prediction_text == 1 %}
+        <h1><u>Prediction</u>: <span class='danger'>Contact a nearby Heart Doctor</span></h1>
+        {% else %}
+        <h1><u>Prediction</u>: <span class='safe'>Great! You are Fine.</span></h1>
+        {% endif %}
+    </div>
+
+    <br>
+
+
+    <!-- Footer -->
+    <div class='footer'>
+        <div class="contact">
+            <a target="_blank" href="https://github.com/AbhishekSrivastava2701">
+                <img style="border-radius: 80px;" src="{{ url_for('static', filename='GitHub-Mark-ea2971cee799.png') }}" alt="" width="30" height="30">
+                <i class="git"></i>
+            </a>
+        </div>
+        <p class='footer-description'>&copy; Heart Failure Predictor</p>
+    </div>
+</body>
+
+</html>

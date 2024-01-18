@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr">
 
 <head>
@@ -7,25 +6,35 @@
     <title>Heart Failure Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
+    <script>
+        function validateForm() {
+            var inputs = document.getElementsByClassName('form-input');
+            for (var i = 0; i < inputs.length; i++) {
+                if (isNaN(inputs[i].value)) {
+                    alert("Please enter a numeric value for " + inputs[i].name);
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
 
 </head>
 
 <body>
-
-
     <!-- Website Title -->
     <div class="container">
-        <center>
-            <h2 class='container-heading'><span class="heading_font"><u>Heart Failure Predictor</u></span></h2>
-            <center>
-                <div class='description'>
-                    <p>A Machine Learning Web App, Built with Flask.</p>
-                </div>
+
+        <h2 class='container-heading'><span class="heading_font">Heart Failure Predictor</span></h2>
+
+        <div class='description'>
+            <p>A Machine Learning Web App, Built with Flask.</p>
+        </div>
     </div>
 
     <!-- Text Area -->
     <div class="ml-container">
-        <form action="{{ url_for('predict') }}" method="POST">
+        <form action="{{ url_for('predict') }}" method="POST" onsubmit="return validateForm()">
             <input class="form-input" type="text" name="age" placeholder="AGE"><br>
             <input class="form-input" type="text" name="CPK" placeholder="Level of the CPK enzyme in the blood (50 - 8000)"><br>
             <input class="form-input" type="text" name="platelets" placeholder="Platelets in the blood (25000-600000)"><br>
@@ -38,25 +47,17 @@
             <input class="form-input" type="text" name="bloodpressure" placeholder="High Blood Pressure (0/1)"><br>
             <input class="form-input" type="text" name="Diabetes" placeholder="Diabetes (0/1)"><br>
             <input class="form-input" type="text" name="Gender" placeholder="Gender (Male=1 , Female=0)"><br>
-            <br>
-            <br>
-
             <input type="submit" class="my-cta-button" value="Predict">
-
         </form>
     </div>
-
-    <br>
 
     <!-- Footer -->
     <div class='footer'>
         <div class="contact">
-            <a target="_blank" href="https://github.com/AbhishekSrivastava2701">
-                <img style="border-radius: 80px;" src="{{ url_for('static', filename='GitHub-Mark-ea2971cee799.png') }}" alt="" width="30" height="30">
-                <i class="git"></i>
-            </a>
+            <a target="_blank" href="https://github.com/AbhishekSrivastava2701"><i class="git"></i></a>
         </div>
-        <p class='footer-description'>&copy; Heart Failure Predictor</p>
+        <img src="{{ url_for('static', filename='GitHub-Mark-ea2971cee799.png') }}" alt="GitHub" height="30" width="30" style="border-radius: 80px;">
+        <p><span style="color: rgb(92, 14, 237);">&copy;</span> Heart Failure Predictor</p>
     </div>
 
 </body>

@@ -1,16 +1,27 @@
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
-import pandas as pd
-import os
-
-dataset_path = os.path.join(os.path.dirname(__file__), 'C:/Users/sriva/project_ml/Hearth-failure-prediction-main/heart_failure_clinical_records_dataset.csv')
-df = pd.read_csv(dataset_path)
-
-filename = 'C:/Users/sriva/project_ml/Hearth-failure-prediction-main/model.pkl'
-classifier = pickle.load(open(filename, 'rb'))
 
 app = Flask(__name__)
+
+filename = 'model.pkl'
+classifier = pickle.load(open(filename, 'rb'))
+
+# Define the valid ranges for each feature
+feature_ranges = {
+    'age': (40, 95),
+    'anaemia': (0, 1),
+    'CPK': (23, 7861),
+    'Diabetes': (0, 1),
+    'EF': (14, 80),
+    'bloodpressure': (0, 1),
+    'platelets': (25100, 850000),
+    'SC': (0.5, 9.4),
+    'SS': (110, 150),
+    'Gender': (0, 1),
+    'Smoking': (0, 1),
+    'time': (4, 285)
+}
 
 @app.route('/')
 def home():
@@ -19,32 +30,32 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-        age = float(request.form['age'])
-        cpk = int(request.form['CPK'])
-        plate = float(request.form['platelets'])
-        sc = float(request.form['SC'])
-        ss = int(request.form['SS'])
-        ef = int(request.form['EF'])
-        time = int(request.form['time'])
-        smoke = int(request.form['Smoking'])
-        anae = int(request.form['anaemia'])
-        pressure = int(request.form['bloodpressure'])
-        dia = int(request.form['Diabetes'])
-        sex = int(request.form['Gender'])
+        # Validate input values
+        input_values = {}
+        error_message = None
 
-        data = np.array([[age, anae,cpk,dia,ef,pressure,plate,sc,ss,sex,smoke,time]])
+        for key in feature_ranges:
+            value = request.form[key]
+            try:
+                value = float(value)
+                if feature_ranges[key][0] <= value <= feature_ranges[key][1]:
+                    input_values[key] = value
+                else:
+                    error_message = f"Invalid value for {key}. Must be between {feature_ranges[key][0]} and {feature_ranges[key][1]}."
+            except ValueError:
+                error_message = f"{key} must be a numeric value."
+
+        if error_message:
+            return render_template('index.html', error=error_message)
+        
+        data = np.array([[input_values['age'], input_values['anaemia'], input_values['CPK'], input_values['Diabetes'],
+                          input_values['EF'], input_values['bloodpressure'], input_values['platelets'],
+                          input_values['SC'], input_values['SS'], input_values['Gender'],
+                          input_values['Smoking'], input_values['time']]])
+
         my_prediction = classifier.predict(data)
 
-        if my_prediction == 1:
-            prediction_text = "Contact a nearby Heart Doctor"
-        else:
-            prediction_text = "You are safe"
-        
-        return render_template('result.html', prediction_text=prediction_text)
-
-    # If the method is not POST, redirect to the home page
-     return redirect(url_for('home'))
-
+        return render_template('result.html', prediction=my_prediction)
 
 if __name__ == '__main__':
     app.run(debug=True)

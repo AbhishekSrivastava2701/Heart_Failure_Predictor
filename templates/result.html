@@ -5,50 +5,35 @@
     <meta charset="utf-8">
     <title>Heart Failure Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
 </head>
 
 <body>
-    <!-- Website Title -->
     <div class="container">
-        <center>
-            <h2 class='container-heading'><span class="heading_font"><u>Heart Failure Predictor</u></span></h2>
-            <center>
-                <div class='description'>
-                    <p>A Machine Learning Web App, Built with Flask.</p>
-                </div>
+        <h2 class='container-heading'><span class="heading_font">Heart Failure Prediction</span></h2>
+        <div class='description'>
+            <p>A Machine Learning Web App, Built with Flask.</p>
+        </div>
     </div>
 
-    <!-- Text Area -->
-    <!-- <div class="ml-container">
-        <form action="{{ url_for('predict') }}" method="POST">
-            <input class="form-input" type="text" name="age" placeholder="AGE"><br>
-            Add other input fields here (CPK, platelets, etc.)
-            <br>
-            <button class="my-cta-button" type="submit">Predict</button>
-        </form>
-    </div> -->
-
-    <div>
-        {% if prediction_text == 1 %}
-        <h1><u>Prediction</u>: <span class='danger'>Contact a nearby Heart Doctor</span></h1>
-        {% else %}
-        <h1><u>Prediction</u>: <span class='safe'>Great! You are Fine.</span></h1>
+    <div class="results">
+        {% if prediction == 1 %}
+        <h1 style="display: inline-block; border: 2px solid red; padding: 5px 10px;"><u>Prediction</u>: <span style="color: red;">Immediately! Contact With a Nearby Doctor.</span></h1>
+        {% elif prediction == 0 %}
+        <h1 style="display: inline-block; border: 2px solid green; padding: 5px 10px;"><u>Prediction</u>: <span style="color: green;">Don't Worry! You are safe.</span></h1>
         {% endif %}
     </div>
 
-    <br>
-
-
-    <!-- Footer -->
     <div class='footer'>
         <div class="contact">
-            <a target="_blank" href="https://github.com/AbhishekSrivastava2701">
-                <img style="border-radius: 80px;" src="{{ url_for('static', filename='GitHub-Mark-ea2971cee799.png') }}" alt="" width="30" height="30">
-                <i class="git"></i>
-            </a>
+            <a target="_blank" href="https://github.com/AbhishekSrivastava2701"><i class="git"></i></a>
         </div>
-        <p class='footer-description'>&copy; Heart Failure Predictor</p>
+        <img src="{{ url_for('static', filename='../static/Heart_logo.jpg') }}" alt="GitHub" height="50" width="50" style="border-radius: 80px;">
+        <p>
+            <span style="display: inline-block; border: 4px solid black; border-radius: 50px; padding: 5px 10px;">
+                Heart Failure Prediction
+            </span>
+        </p>
+        
     </div>
 </body>
 

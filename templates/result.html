@@ -5,6 +5,14 @@
     <meta charset="utf-8">
     <title>Heart Failure Predictor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='../static/Screenshot 2024-02-26 201255.png') }}");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,8 +26,14 @@
     <div class="results">
         {% if prediction == 1 %}
         <h1 style="display: inline-block; border: 2px solid red; padding: 5px 10px;"><u>Prediction</u>: <span style="color: red;">Immediately! Contact With a Nearby Doctor.</span></h1>
+        <script>
+            document.body.style.backgroundImage = "url('{{ url_for('static', filename='a.jpg') }}')";
+        </script>
         {% elif prediction == 0 %}
         <h1 style="display: inline-block; border: 2px solid green; padding: 5px 10px;"><u>Prediction</u>: <span style="color: green;">Don't Worry! You are safe.</span></h1>
+        <script>
+            document.body.style.backgroundImage = "url('{{ url_for('static', filename='Screenshot 2024-02-26 201255.png') }}')";
+        </script>
         {% endif %}
     </div>
 
